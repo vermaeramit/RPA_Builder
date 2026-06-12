@@ -1,0 +1,30 @@
+# RPA Builder — self-contained stack.
+# Publishes ONLY the web UI on ${WEB_PORT} (default 3000); the backend stays
+# internal on a dedicated bridge network, so this does not affect other
+# containers already running on the host.
+#
+# Reads configuration from a local .env file (see .env.example).
+
+services:
+  backend:
+    build: ./backend
+    env_file: .env
+    expose:
+      - "8000"        # internal only — reachable by the web service, not the host
+    networks:
+      - rpa-net
+    restart: unless-stopped
+
+  web:
+    build: ./frontend
+    ports:
+      - "${WEB_PORT:-3000}:80"
+    depends_on:
+      - backend
+    networks:
+      - rpa-net
+    restart: unless-stopped
+
+networks:
+  rpa-net:
+    driver: bridge
