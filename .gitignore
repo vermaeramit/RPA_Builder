@@ -1,0 +1,16 @@
+# Secrets / local env
+backend/.env
+
+# Python
+backend/.venv/
+__pycache__/
+*.pyc
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# Saved workflows & run artifacts (keep these local)
+backend/workflows/*.json
+screenshot.png
+*.log
